@@ -5,3 +5,13 @@ $violet: #6676b2;
 $wood: #eab676;
 $dark-wood: #e28743;
 $sand: #f6d7b0;
+$pink: #df5495;
+
+button {
+  cursor: pointer;
+
+  &.disabledButton {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}

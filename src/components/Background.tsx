@@ -1,22 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
+import { HamsterContext } from "../Context/HamsterContext";
 import Aquarium from "./Aquarium";
 import "./Background.scss";
 import Options from "./Options";
 
 function Background() {
+  const { aquariums } = useContext(HamsterContext);
+
   return (
     <div className="background">
       <div className="background__options">
         <Options />
       </div>
       <div className="background__shelf">
-        {[...Array(5)].map((_) => (
-          <Aquarium />
+        {aquariums.slice(0, 5).map((aqua) => (
+          <Aquarium aqua={aqua} key={aqua.id} />
         ))}
       </div>
       <div className="background__shelf">
-        {[...Array(5)].map((_) => (
-          <Aquarium />
+        {aquariums.slice(5).map((aqua) => (
+          <Aquarium aqua={aqua} key={aqua.id} />
         ))}
       </div>
     </div>
