@@ -59,12 +59,6 @@
   position: absolute;
   z-index: 2;
 
-  &:not(.child) {
-    animation: ease-in-out infinite;
-    animation-name: grow, run, jump;
-    animation-duration: 5s;
-  }
-
   &.child {
     transform: scale(0.6) translate(0, 35%);
   }
@@ -114,27 +108,6 @@
   }
   50% {
     scale: 1.5;
-  }
-  100% {
-    scale: 1;
-  }
-}
-
-@keyframes grow {
-  0% {
-    scale: 0.6;
-  }
-  20% {
-    scale: 1;
-  }
-  40% {
-    scale: 0.4;
-  }
-  60% {
-    scale: 1.5;
-  }
-  80% {
-    scale: 0.6;
   }
   100% {
     scale: 1;
