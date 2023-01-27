@@ -1,13 +1,23 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 import { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
+import {
+  adultHamsterBaseSellPrice,
+  adultHamsterBuyPrice,
+  aquariumPrice,
+  babyHamsterSellPrice,
+  baseAdultHamsterAge,
+  baseCash,
+  feedPrice,
+  reproducePrice,
+  timeTillAdult,
+} from "../constants";
 
 export interface IAquarium {
-  [key: string]: number | boolean | string | undefined;
   hamster: number | undefined;
   fed: number;
   id: string;
-  adult: boolean;
+  createdAt: number;
 }
 
 export const HamsterContext = createContext<{
@@ -15,6 +25,7 @@ export const HamsterContext = createContext<{
   aquariums: IAquarium[];
   feedHamster: (id: string) => void;
   sellHamster: (id: string) => void;
+  getHamsterHungry: (id: string) => void;
   buyAquarium: () => void;
   buyHamster: () => void;
   reproduce: () => void;
@@ -26,6 +37,7 @@ export const HamsterContext = createContext<{
   buyAquarium: () => {},
   buyHamster: () => {},
   reproduce: () => {},
+  getHamsterHungry: () => {},
 });
 
 export const HamsterProvider = ({
@@ -33,11 +45,15 @@ export const HamsterProvider = ({
 }: {
   children: JSX.Element | JSX.Element[];
 }) => {
-  const [coins, setCoins] = useState<number>(5000);
+  const [coins, setCoins] = useState<number>(baseCash);
 
   const [aquariums, setAquariums] = useState<IAquarium[]>([
-    { hamster: 4, fed: 5, id: "0", adult: true },
-    { hamster: 3, fed: 5, id: "1", adult: true },
+    {
+      hamster: 4,
+      fed: 5,
+      id: "0",
+      createdAt: Date.now() - timeTillAdult,
+    },
   ]);
 
   const feedHamster = (id: string) => {
@@ -46,16 +62,25 @@ export const HamsterProvider = ({
         tank.id === id ? { ...tank, fed: tank.fed + 1 } : tank
       )
     );
-    setCoins((prev) => prev - 5);
+    setCoins((prev) => prev - feedPrice);
   };
 
   const sellHamster = (id: string) => {
-    setAquariums((prev) =>
-      prev.map((tank) =>
+    const hamster = aquariums.filter((aq) => aq.id === id)[0];
+    const isAdult = timeTillAdult - (Date.now() - hamster.createdAt) < 0;
+    setAquariums((prev) => {
+      return prev.map((tank) =>
         tank.id === id ? { ...tank, hamster: undefined } : tank
-      )
+      );
+    });
+    const hamsterPrice = hamster.hamster;
+    setCoins(
+      (prev) =>
+        prev +
+        (isAdult
+          ? adultHamsterBaseSellPrice + hamsterPrice!
+          : babyHamsterSellPrice)
     );
-    setCoins((prev) => prev + 5);
   };
 
   const buyAquarium = () => {
@@ -65,11 +90,11 @@ export const HamsterProvider = ({
         hamster: undefined,
         fed: 5,
         id: uuid(),
-        imageId: Math.floor(Math.random() * 5),
         adult: true,
+        createdAt: 0,
       },
     ]);
-    setCoins((prev) => prev - 30);
+    setCoins((prev) => prev - aquariumPrice);
   };
 
   const buyHamster = () => {
@@ -82,21 +107,24 @@ export const HamsterProvider = ({
               ...tank,
               hamster: Math.floor(Math.random() * 5),
               adult: true,
+              createdAt: Date.now() - baseAdultHamsterAge,
+              fed: 5,
             }
           : tank
       );
     });
-    setCoins((prev) => prev - 10);
+    setCoins((prev) => prev - adultHamsterBuyPrice);
   };
 
   const reproduce = () => {
     setAquariums((prev) => {
       const pictureIds = prev
-        .map((aq) => aq.hamster)
-        .filter((el) => el != undefined);
+        .filter(
+          (el) => el !== undefined && Date.now() - el.createdAt > timeTillAdult
+        )
+        .map((aq) => aq.hamster);
 
       const randomPictureId = Math.floor(Math.random() * pictureIds.length);
-      console.log(pictureIds[randomPictureId]);
       const freeAquariumId = prev.filter((aq) => aq.hamster === undefined)[0]
         .id;
       return prev.map((tank) =>
@@ -105,11 +133,24 @@ export const HamsterProvider = ({
               ...tank,
               hamster: pictureIds[randomPictureId],
               adult: false,
+              createdAt: Date.now(),
+              fed: 5,
             }
           : tank
       );
     });
-    setCoins((prev) => prev - 3);
+    setCoins((prev) => prev - reproducePrice);
+  };
+
+  const getHamsterHungry = (id: string) => {
+    setAquariums((prev) => {
+      const hamsterFed = prev.filter((aq) => aq.id === id)[0].fed;
+      const newFedValue = hamsterFed - 1 < 0 ? 0 : hamsterFed - 1;
+
+      return prev.map((tank) =>
+        tank.id === id ? { ...tank, fed: newFedValue } : tank
+      );
+    });
   };
 
   return (
@@ -122,6 +163,7 @@ export const HamsterProvider = ({
         buyAquarium,
         buyHamster,
         reproduce,
+        getHamsterHungry,
       }}
     >
       {children}

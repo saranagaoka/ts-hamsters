@@ -54,13 +54,29 @@
 .aquarium__picture {
   width: 20px;
   animation: ease-in-out infinite;
-  animation-name: run, testAnimation;
+  animation-name: run, jump;
   animation-duration: 5s;
   position: absolute;
   z-index: 2;
 
+  &:not(.child) {
+    animation: ease-in-out infinite;
+    animation-name: grow, run, jump;
+    animation-duration: 5s;
+  }
+
   &.child {
     transform: scale(0.6) translate(0, 35%);
+  }
+}
+
+.aquarium__redHearts {
+  color: $red;
+
+  &.lastHeart {
+    animation: ease-in-out infinite;
+    animation-name: beat;
+    animation-duration: 1s;
   }
 }
 
@@ -71,12 +87,12 @@
 }
 
 .aquarium:nth-child(2n) .aquarium__top .aquarium__picture {
-  animation-delay: 3s;
+  animation-delay: -3s;
   animation-timing-function: ease-in;
 }
 
 .aquarium:nth-child(n + 5) .aquarium__top .aquarium__picture {
-  animation-delay: 2s;
+  animation-delay: -2s;
   animation-timing-function: ease-in;
 }
 
@@ -92,7 +108,40 @@
   }
 }
 
-@keyframes testAnimation {
+@keyframes beat {
+  0% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.5;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+@keyframes grow {
+  0% {
+    scale: 0.6;
+  }
+  20% {
+    scale: 1;
+  }
+  40% {
+    scale: 0.4;
+  }
+  60% {
+    scale: 1.5;
+  }
+  80% {
+    scale: 0.6;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+@keyframes jump {
   23% {
     margin-bottom: 0;
   }

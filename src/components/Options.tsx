@@ -1,4 +1,10 @@
 import React, { useCallback, useContext } from "react";
+import {
+  adultHamsterBuyPrice,
+  aquariumPrice,
+  reproducePrice,
+  timeTillAdult,
+} from "../constants";
 import { HamsterContext } from "../Context/HamsterContext";
 import "./Options.scss";
 
@@ -10,40 +16,50 @@ function Options() {
     [aquariums]
   );
   const numberOfAdultHamsters = aquariums.filter(
-    (a) => a.hamster != undefined && a.adult === true
+    (a) => a.hamster !== undefined && Date.now() - a.createdAt > timeTillAdult
   ).length;
 
   return (
     <div className="options">
       <button
         className={`buy__aquarium ${
-          aquariums.length == 10 || coins < 30 ? "disabledButton" : ""
+          aquariums.length === 10 || coins < aquariumPrice
+            ? "disabledButton"
+            : ""
         }`}
         onClick={buyAquarium}
-        disabled={aquariums.length == 10 || coins < 30}
+        disabled={aquariums.length === 10 || coins < aquariumPrice}
       >
-        Buy new tank $30
+        Buy new tank ${aquariumPrice}
       </button>
       <button
         className={`buy__randomHamster ${
-          coins < 10 || !freeAquariums() ? "disabledButton" : ""
+          coins < adultHamsterBuyPrice || !freeAquariums()
+            ? "disabledButton"
+            : ""
         }`}
         onClick={buyHamster}
-        disabled={coins < 10 || !freeAquariums()}
+        disabled={coins < adultHamsterBuyPrice || !freeAquariums()}
       >
-        Buy random hamster $10
+        Buy random hamster ${adultHamsterBuyPrice}
       </button>
 
       <button
         className={`reproduce ${
-          coins < 3 || !freeAquariums() || numberOfAdultHamsters <= 1
+          coins < reproducePrice ||
+          !freeAquariums() ||
+          numberOfAdultHamsters <= 1
             ? "disabledButton"
             : ""
         }`}
         onClick={reproduce}
-        disabled={coins < 3 || !freeAquariums() || numberOfAdultHamsters <= 1}
+        disabled={
+          coins < reproducePrice ||
+          !freeAquariums() ||
+          numberOfAdultHamsters <= 1
+        }
       >
-        Reproduce $3
+        Reproduce ${reproducePrice}
       </button>
 
       <p> ${coins}</p>
