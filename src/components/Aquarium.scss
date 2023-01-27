@@ -1,0 +1,75 @@
+@import "../global.scss";
+
+.aquarium {
+  width: calc(90% / 5 - 15px);
+  height: 90px;
+  background-color: lightblue;
+  border: 3px solid black;
+  border-top: none;
+}
+
+.aquarium__top {
+  background: linear-gradient(
+    180deg,
+    rgba(184, 181, 238, 1) 0%,
+    rgba(153, 188, 209, 1) 28%,
+    rgba(111, 206, 234, 1) 100%
+  );
+  height: 80%;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+}
+
+.aquarium__bottom {
+  height: 20%;
+  width: 100%;
+  background-color: $sand;
+  opacity: 70%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.aquarium__feedButton {
+  background-color: $violet;
+  color: black;
+  border: 1px solid black;
+  font-size: 10px;
+  transition: 0.3s;
+}
+
+.aquarium__feedButton:hover {
+  background-color: pink;
+  transform: scale(0.9);
+}
+
+.aquarium__picture {
+  width: 20px;
+  animation: ease-in-out infinite;
+  animation-name: run;
+  animation-duration: 5s;
+  position: absolute;
+}
+
+.aquarium:nth-child(2n) .aquarium__top .aquarium__picture {
+  animation-delay: 3s;
+  animation-timing-function: ease-in;
+}
+
+.aquarium:nth-child(n + 5) .aquarium__top .aquarium__picture {
+  animation-delay: 2s;
+  animation-timing-function: ease-in;
+}
+
+@keyframes run {
+  0% {
+    left: 0;
+  }
+  50% {
+    left: 80%;
+  }
+  100% {
+    left: 0;
+  }
+}
