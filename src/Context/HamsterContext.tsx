@@ -153,6 +153,18 @@ export const HamsterProvider = ({
     });
   };
 
+  useEffect(() => {
+    setCoins(parseInt(localStorage.getItem("coins") || "0"));
+    setAquariums(JSON.parse(localStorage.getItem("aquariums") || ""));
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      localStorage.setItem("aquariums", JSON.stringify(aquariums));
+      localStorage.setItem("coins", coins.toString());
+    }, 0);
+  }, [aquariums, coins]);
+
   return (
     <HamsterContext.Provider
       value={{
