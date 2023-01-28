@@ -154,8 +154,10 @@ export const HamsterProvider = ({
   };
 
   useEffect(() => {
-    setCoins(parseInt(localStorage.getItem("coins") || "0"));
-    setAquariums(JSON.parse(localStorage.getItem("aquariums") || ""));
+    const downloadCoins = localStorage.getItem("coins");
+    const downloadAqua = localStorage.getItem("aquariums");
+    downloadCoins && setCoins(parseInt(downloadCoins));
+    downloadAqua && setAquariums(JSON.parse(downloadAqua));
   }, []);
 
   useEffect(() => {
