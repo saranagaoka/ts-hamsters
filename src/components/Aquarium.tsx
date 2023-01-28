@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { IAquarium, HamsterContext } from "../Context/HamsterContext";
 import "./Aquarium.scss";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -21,7 +21,6 @@ const hamsterWheel = require("../images/hamster-wheel.png");
 const pictureArr = [picture1, picture2, picture3, picture4, picture5];
 
 function Aquarium({ aqua }: { aqua: IAquarium }) {
-  const [timeLeft, setTimeLeft] = useState(0);
   const { sellHamster, feedHamster, coins, getHamsterHungry } =
     useContext(HamsterContext);
   const feed = () => {
@@ -34,15 +33,6 @@ function Aquarium({ aqua }: { aqua: IAquarium }) {
   const hamsterPrice = aqua.hamster!;
 
   useEffect(() => {
-    aqua.createdAt > 0 &&
-      setInterval(() => {
-        setTimeLeft((prev) => {
-          return Math.floor((Date.now() - aqua.createdAt) / (60 * 1000));
-        });
-      }, 1000);
-  }, [aqua.createdAt]);
-
-  useEffect(() => {
     let interval: NodeJS.Timer;
     if (aqua.createdAt)
       interval = setInterval(() => {
@@ -51,6 +41,7 @@ function Aquarium({ aqua }: { aqua: IAquarium }) {
     return () => {
       clearInterval(interval);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [aqua.createdAt]);
 
   return (
@@ -76,9 +67,14 @@ function Aquarium({ aqua }: { aqua: IAquarium }) {
           <img
             className={`aquarium__picture ${isAdult ? "" : "child"}`}
             src={pictureArr[aqua.hamster]}
+            alt="some cute hamster"
           />
         )}
-        <img src={hamsterWheel} className="aquarium__wheel" />
+        <img
+          src={hamsterWheel}
+          className="aquarium__wheel"
+          alt="hamster wheel"
+        />
       </div>
       <div className="aquarium__bottom">
         {aqua.hamster !== undefined && (
