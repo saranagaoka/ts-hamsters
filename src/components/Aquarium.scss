@@ -1,8 +1,8 @@
 @import "../global.scss";
 
 .aquarium {
-  width: calc(90% / 5 - 15px);
-  height: 90px;
+  width: calc(100% / 5);
+  height: 180px;
   background-color: lightblue;
   border: 3px solid black;
   border-top: none;
@@ -24,14 +24,15 @@
 
 .aquarium__top > svg {
   align-self: flex-start;
-  width: calc(90% / 5);
+  width: calc(60% / 5);
+  height: 30%;
 }
 
 .aquarium__bottom {
   height: 25%;
   width: 100%;
   background-color: $sand;
-  opacity: 70%;
+  opacity: 60%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -41,7 +42,9 @@
   background-color: $violet;
   color: white;
   border: 1px solid black;
-  font-size: 10px;
+  height: 70%;
+  width: 25%;
+  font-size: 16px;
   transition: 0.3s;
   padding: 2px;
 }
@@ -52,7 +55,7 @@
 }
 
 .aquarium__picture {
-  width: 20px;
+  width: 40px;
   animation: ease-in-out infinite;
   animation-name: run, jump;
   animation-duration: 5s;
@@ -76,7 +79,7 @@
 
 .aquarium__wheel {
   position: absolute;
-  width: 40px;
+  width: 80px;
   right: 10px;
 }
 

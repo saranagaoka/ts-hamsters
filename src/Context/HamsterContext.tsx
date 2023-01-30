@@ -120,14 +120,17 @@ export const HamsterProvider = ({
     setAquariums((prev) => {
       const pictureIds = prev
         .filter(
-          (el) => el !== undefined && Date.now() - el.createdAt > timeTillAdult
+          (el) =>
+            el.hamster !== undefined &&
+            Date.now() - el.createdAt > timeTillAdult
         )
-        .map((aq) => aq.hamster);
+        .map((aq) => aq.hamster); // [3,4]
 
       const randomPictureId = Math.floor(Math.random() * pictureIds.length);
       const freeAquariumId = prev.filter((aq) => aq.hamster === undefined)[0]
         .id;
-      return prev.map((tank) =>
+
+      const mojElement = prev.map((tank) =>
         tank.id === freeAquariumId
           ? {
               ...tank,
@@ -138,6 +141,8 @@ export const HamsterProvider = ({
             }
           : tank
       );
+
+      return mojElement;
     });
     setCoins((prev) => prev - reproducePrice);
   };

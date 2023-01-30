@@ -12,10 +12,15 @@
 .options > button {
   background-color: $pink;
   border: 1px solid $violet;
+  padding: 4px;
+
+  width: 20%;
+  font-size: 1.7vw;
 }
 
 .options > p {
   position: absolute;
-  top: 30px;
+  top: 56px;
   right: 40px;
+  font-size: 40px;
 }
