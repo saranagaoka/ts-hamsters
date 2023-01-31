@@ -9,6 +9,7 @@ import {
   feedPrice,
   hungerTime,
   timeTillAdult,
+  unalivedHamsterPrice,
 } from "../constants";
 
 const picture1 = require("../images/hamster1.png");
@@ -31,6 +32,7 @@ function Aquarium({ aqua }: { aqua: IAquarium }) {
   };
   const isAdult = timeTillAdult - (Date.now() - aqua.createdAt) < 0;
   const hamsterPrice = aqua.hamster!;
+  const unalived = aqua.fed === 0;
 
   useEffect(() => {
     let interval: NodeJS.Timer;
@@ -65,7 +67,9 @@ function Aquarium({ aqua }: { aqua: IAquarium }) {
 
         {aqua.hamster !== undefined && (
           <img
-            className={`aquarium__picture ${isAdult ? "" : "child"}`}
+            className={`aquarium__picture ${isAdult ? "" : "child"} ${
+              unalived ? "unalived" : ""
+            }`}
             src={pictureArr[aqua.hamster]}
             alt="some cute hamster"
           />
@@ -89,8 +93,10 @@ function Aquarium({ aqua }: { aqua: IAquarium }) {
               Feed ${feedPrice}
             </button>
             <button className="aquarium__sell" onClick={sell}>
-              Sell +$
-              {isAdult
+              Sell {unalived ? "-" : "+"}$
+              {unalived
+                ? unalivedHamsterPrice
+                : isAdult
                 ? adultHamsterBaseSellPrice + hamsterPrice
                 : babyHamsterSellPrice}
             </button>

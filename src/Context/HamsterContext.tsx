@@ -11,6 +11,7 @@ import {
   feedPrice,
   reproducePrice,
   timeTillAdult,
+  unalivedHamsterPrice,
 } from "../constants";
 
 export interface IAquarium {
@@ -68,6 +69,7 @@ export const HamsterProvider = ({
   const sellHamster = (id: string) => {
     const hamster = aquariums.filter((aq) => aq.id === id)[0];
     const isAdult = timeTillAdult - (Date.now() - hamster.createdAt) < 0;
+    const unalived = hamster.fed === 0;
     setAquariums((prev) => {
       return prev.map((tank) =>
         tank.id === id ? { ...tank, hamster: undefined } : tank
@@ -77,7 +79,9 @@ export const HamsterProvider = ({
     setCoins(
       (prev) =>
         prev +
-        (isAdult
+        (unalived
+          ? -unalivedHamsterPrice
+          : isAdult
           ? adultHamsterBaseSellPrice + hamsterPrice!
           : babyHamsterSellPrice)
     );
@@ -130,7 +134,7 @@ export const HamsterProvider = ({
       const freeAquariumId = prev.filter((aq) => aq.hamster === undefined)[0]
         .id;
 
-      const mojElement = prev.map((tank) =>
+      const createBabyHamster = prev.map((tank) =>
         tank.id === freeAquariumId
           ? {
               ...tank,
@@ -142,7 +146,7 @@ export const HamsterProvider = ({
           : tank
       );
 
-      return mojElement;
+      return createBabyHamster;
     });
     setCoins((prev) => prev - reproducePrice);
   };

@@ -67,6 +67,13 @@
   }
 }
 
+.unalived {
+  transform: rotate(90deg);
+  animation: none;
+  bottom: -10px;
+  left: 10px;
+}
+
 .aquarium__redHearts {
   color: $red;
 
