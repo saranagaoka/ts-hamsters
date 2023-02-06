@@ -16,7 +16,10 @@ function Options() {
     [aquariums]
   );
   const numberOfAdultHamsters = aquariums.filter(
-    (a) => a.hamster !== undefined && Date.now() - a.createdAt > timeTillAdult
+    (a) =>
+      a.hamster !== undefined &&
+      Date.now() - a.createdAt > timeTillAdult &&
+      a.fed > 0
   ).length;
 
   return (

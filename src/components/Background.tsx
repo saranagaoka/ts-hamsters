@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { HamsterContext } from "../Context/HamsterContext";
 import Aquarium from "./Aquarium";
 import "./Background.scss";
+import HamsterGoal from "./HamsterGoal";
 import Options from "./Options";
 
 function Background() {
@@ -10,6 +11,8 @@ function Background() {
   return (
     <div className="background">
       <div className="background__options">
+        <HamsterGoal />
+
         <Options />
       </div>
       <div className="background__shelf">

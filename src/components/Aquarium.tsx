@@ -10,16 +10,9 @@ import {
   hungerTime,
   timeTillAdult,
   unalivedHamsterPrice,
+  pictureArr,
+  hamsterWheel,
 } from "../constants";
-
-const picture1 = require("../images/hamster1.png");
-const picture2 = require("../images/hamster2.png");
-const picture3 = require("../images/hamster3.png");
-const picture4 = require("../images/hamster4.png");
-const picture5 = require("../images/hamster6.png");
-const hamsterWheel = require("../images/hamster-wheel.png");
-
-const pictureArr = [picture1, picture2, picture3, picture4, picture5];
 
 function Aquarium({ aqua }: { aqua: IAquarium }) {
   const { sellHamster, feedHamster, coins, getHamsterHungry } =
@@ -85,10 +78,12 @@ function Aquarium({ aqua }: { aqua: IAquarium }) {
           <>
             <button
               className={`aquarium__feedButton ${
-                aqua.fed === 5 || coins < feedPrice ? "disabledButton" : ""
+                aqua.fed === 5 || aqua.fed === 0 || coins < feedPrice
+                  ? "disabledButton"
+                  : ""
               }`}
               onClick={feed}
-              disabled={aqua.fed === 5 || coins < feedPrice}
+              disabled={aqua.fed === 5 || coins < feedPrice || aqua.fed === 0}
             >
               Feed ${feedPrice}
             </button>

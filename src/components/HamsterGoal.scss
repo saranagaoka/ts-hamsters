@@ -1,0 +1,37 @@
+@import "../global.scss";
+
+.hamsterGoal__hamster {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+.hamsterGoal__hamster > .grayedOut {
+  opacity: 40%;
+}
+
+.hamsterGoal__hamster > img {
+  width: 50px;
+}
+
+.hamsterGoal .hamsterGoal__completed {
+  margin-left: 8px;
+  font-size: 25px;
+  color: $dark-pink;
+  position: absolute;
+  top: 70px;
+  animation: myAnim 2s cubic-bezier(0.16, 1, 0.3, 1) 0s infinite normal forwards;
+}
+
+@keyframes myAnim {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0;
+  }
+}

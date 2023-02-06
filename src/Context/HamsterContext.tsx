@@ -126,7 +126,8 @@ export const HamsterProvider = ({
         .filter(
           (el) =>
             el.hamster !== undefined &&
-            Date.now() - el.createdAt > timeTillAdult
+            Date.now() - el.createdAt > timeTillAdult &&
+            el.fed > 0
         )
         .map((aq) => aq.hamster); // [3,4]
 
